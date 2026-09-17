@@ -1,0 +1,62 @@
+# All settings live here. Every value in ${...} can be overridden with an environment variable.
+spring:
+  application:
+    name: lankamart-support
+
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/lankamart_support?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${DB_USERNAME:lankamart}
+    password: ${DB_PASSWORD:lankamart}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate # Flyway owns the schema
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  data:
+    redis:
+      url: ${REDIS_URL:redis://localhost:6379}
+
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-stacktrace: never
+
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:3000}
+  chat:
+    daily-limit: ${CHAT_DAILY_LIMIT:30}
+  auth:
+    jwt-secret: ${JWT_SECRET:change-me-local-dev-secret-at-least-32-characters}
+    access-token-ttl: 15m
+    refresh-token-ttl: 7d
+    max-failed-logins: 5
+    login-lock-duration: 15m
+  demo:
+    seed-users: ${DEMO_SEED_USERS:true}
+    password: ${DEMO_PASSWORD:Demo@12345}
+  ai:
+    monthly-budget-usd: ${AI_MONTHLY_BUDGET_USD:5}
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
