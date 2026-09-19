@@ -42,6 +42,7 @@ app:
     login-lock-duration: 15m
   demo:
     seed-users: ${DEMO_SEED_USERS:true}
+    seed-orders: ${DEMO_SEED_ORDERS:true}
     password: ${DEMO_PASSWORD:Demo@12345}
   ai:
     monthly-budget-usd: ${AI_MONTHLY_BUDGET_USD:5}
