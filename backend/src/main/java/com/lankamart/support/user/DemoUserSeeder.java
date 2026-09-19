@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,9 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-/** Creates one demo account per role on startup, if it does not exist yet. */
+/** Creates the demo accounts on startup, if they do not exist yet. Runs before DemoOrderSeeder. */
 @Slf4j
 @Component
+@Order(1)
 @RequiredArgsConstructor
 @ConditionalOnProperty(name = "app.demo.seed-users", havingValue = "true")
 public class DemoUserSeeder implements ApplicationRunner {
@@ -28,6 +30,8 @@ public class DemoUserSeeder implements ApplicationRunner {
 	@Transactional
 	public void run(ApplicationArguments args) {
 		seed("Demo Customer", "customer@lankamart.lk", Role.CUSTOMER);
+		seed("Nimali Perera", "nimali@lankamart.lk", Role.CUSTOMER);
+		seed("Kasun Silva", "kasun@lankamart.lk", Role.CUSTOMER);
 		seed("Demo Agent", "agent@lankamart.lk", Role.AGENT);
 		seed("Demo Admin", "admin@lankamart.lk", Role.ADMIN);
 	}

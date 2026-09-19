@@ -38,8 +38,13 @@ public class SecurityConfig {
 						// Role rules
 						.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
 						.requestMatchers("/api/v1/agents/**").hasAnyRole("AGENT", "ADMIN")
+                        						.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+						.requestMatchers("/api/v1/agents/**").hasAnyRole("AGENT", "ADMIN")
+						.requestMatchers("/api/v1/orders/**").hasRole("CUSTOMER")     // ← aluth
 						// Everything else needs a valid token
 						.anyRequest().authenticated())
+
+	
 				.oauth2ResourceServer(oauth2 -> oauth2
 						.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
 						.authenticationEntryPoint(errorHandler)
